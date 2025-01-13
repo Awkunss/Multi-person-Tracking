@@ -18,8 +18,17 @@ with open("data_ext/classes.names") as f:
 print(class_names)
 colors = np.random.randint(0,255, size=(len(class_names),3 ))
 
+
+conf_threshold = 0.5
+tracking_class = 0
+
 # Initialize VideoCapture to read from a video source
-cap = cv2.VideoCapture(1)
+print("Choose input type: \n 1. Video \n 2. Webcam")
+input_type = int(input())
+if input_type == 1:
+    cap = cv2.VideoCapture("walking_1.mp4")
+else:
+    cap = cv2.VideoCapture(1)
 
 # Initialize DeepSort
 tracker = DeepSort(max_age=30)

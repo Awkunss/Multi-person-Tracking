@@ -1,83 +1,105 @@
 
-# YOLOv9 Object Tracking with DeepSort
+# YOLOv9 Object Tracking with DeepSORT
 
-This project integrates the YOLOv9 object detection model with the DeepSort tracker for real-time object tracking in videos or webcam feeds.
+This project implements object detection and tracking using YOLOv9 and DeepSORT. The application supports video file input or live webcam feed.
+
+---
 
 ## Project Structure
 
-- `weights/yolov9-s-converted.pt`: YOLOv9 model weights file.
-- `data_ext/classes.names`: File containing the class names, one per line.
-- `walking_1.mp4`: Example video file for testing.
-- `main.py`: Python script containing the code for object detection and tracking.
+```
+yolov9/
+├── arguments.py          # Handles command-line arguments
+├── main.py               # Entry point for the application
+├── tracker.py            # Contains YOLOv9 tracker logic
+├── video_processor.py    # Handles video input and processing
+├── config.py             # Stores configuration constants
+```
+
+---
+
+## Features
+
+- **Object Detection**: Uses YOLOv9 for detecting objects in frames.
+- **Object Tracking**: Employs DeepSORT for tracking detected objects across frames.
+- **Input Options**:
+  - **Video File**: Process a pre-recorded video file.
+  - **Webcam**: Stream and process live video feed.
+- **Command-Line Arguments**: Easily specify input type and video path.
+
+---
 
 ## Usage
 
-1. Clone this repository and navigate to the `yolov9` folder:
-   ```bash
-   git clone <repository-url>
-   cd yolov9
-   ```
+Run the application using `main.py`. Specify the input type and video path (if applicable) via command-line arguments.
 
-2. Place the YOLOv9 weights file (`yolov9-s-converted.pt`) in the `weights` folder.
+### Command-Line Arguments
 
-3. Create or verify the `data_ext/classes.names` file, which should list the class names used by your model.
+| Argument      | Description                                   | Required |
+|---------------|-----------------------------------------------|----------|
+| `--input_type`| Input type: `1` for video file, `2` for webcam | Yes      |
+| `--video_path`| Path to the video file (if `input_type=1`)    | No       |
 
-4. Run the script:
-   ```bash
-   python main.py
-   ```
+### Example Commands
 
-5. Choose the input type when prompted:
-   - `1` for a video file (default: `walking_1.mp4`).
-   - `2` for live webcam input.
-
-6. Press `q` to exit the program at any time.
-
-## Code Highlights
-
-### Initializing YOLOv9
-The YOLOv9 model is initialized with:
-```python
-model = DetectMultiBackend(weights="weights/yolov9-s-converted.pt", device=device, fuse=True)
-model = AutoShape(model)
+#### Process a Video File
+```bash
+python main.py --input_type 1 --video_path data_ext/walking_2.mp4
 ```
 
-### Object Detection
-The YOLOv9 model processes each frame to detect objects:
-```python
-results = model(frame)
+#### Stream Live from Webcam
+```bash
+python main.py --input_type 2
 ```
 
-### Tracking with DeepSort
-The DeepSort tracker maintains track IDs for detected objects:
+---
+
+## Configuration
+
+You can modify constants like YOLOv9 weights, class names path, and confidence threshold in `config.py`:
+
 ```python
-tracker = DeepSort(max_age=30)
-tracks = tracker.update_tracks(detect, frame=frame)
+# config.py
+WEIGHTS_PATH = "weights/yolov9-s-converted.pt"
+CLASSES_PATH = "data_ext/classes.names"
+CONF_THRESHOLD = 0.5
 ```
 
-### FPS Calculation
-Frames per second (FPS) are calculated to monitor performance:
-```python
-fps = 1 / (current_time - prev_time) if prev_time else 0
+---
+
+## How It Works
+
+1. **Detection**: YOLOv9 identifies objects in each frame.
+2. **Tracking**: DeepSORT assigns unique IDs to detected objects and tracks them across frames.
+3. **Visualization**: Draws bounding boxes and displays the tracking IDs on the video.
+
+---
+
+## Output
+
+- Displays real-time video feed with tracked objects.
+- Press `q` to exit the application.
+
+---
+
+## Folder Layout
+
+Ensure the following folder layout before running the application:
+
+```
+yolov9/
+├── weights/
+│   └── yolov9-s-converted.pt    # YOLOv9 model weights
+├── data_ext/
+│   ├── classes.names            # Class names file
+│   └── walking_2.mp4            # Example video file
 ```
 
-### Visualization
-Bounding boxes, labels, and FPS are drawn on each frame:
-```python
-cv2.rectangle(frame, (x1, y1), (x2, y2), color, 2)
-cv2.putText(frame, label, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
-```
-
-## Example Output
-
-- Detected objects are shown with bounding boxes and unique track IDs.
-- FPS is displayed on the top-left corner of the video frame.
+---
 
 ## Notes
 
-- Adjust the confidence threshold (`conf_threshold`) as needed:
-  ```python
-  conf_threshold = 0.5
-  ```
-- Modify `colors` for custom bounding box colors.
+- For the best performance, ensure CUDA is installed and available for PyTorch.
+- This project assumes a pre-trained YOLOv9 model in the `weights` folder.
+
 

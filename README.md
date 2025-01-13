@@ -8,6 +8,8 @@ This project integrates the YOLOv9 object detection model with the DeepSort trac
 - `weights/yolov9-s-converted.pt`: YOLOv9 model weights file.
 - `data_ext/classes.names`: File containing the class names, one per line.
 - `walking_1.mp4`: Example video file for testing.
+- `setup.txt`: Include necessary library.
+- `setup.py`: Script to setup.
 - `main.py`: Python script containing the code for object detection and tracking.
 
 ## Usage
@@ -18,7 +20,7 @@ This project integrates the YOLOv9 object detection model with the DeepSort trac
    cd yolov9
    ```
 
-2. Place the YOLOv9 weights file (`yolov9-s-converted.pt`) in the `weights` folder.
+2. Place the YOLOv9 weights file (`yolov9-s-converted.pt`) in the `yolov9/weights` folder.
 
 3. Create or verify the `data_ext/classes.names` file, which should list the class names used by your model.
 

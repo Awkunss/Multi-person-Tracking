@@ -8,7 +8,7 @@ This project implements object detection and tracking using YOLOv9 and DeepSORT.
 ## Project Structure
 
 ```
-yolov9/
+yolov9/tracking/
 ├── arguments.py          # Handles command-line arguments
 ├── main.py               # Entry point for the application
 ├── tracker.py            # Contains YOLOv9 tracker logic

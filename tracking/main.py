@@ -21,9 +21,9 @@ def main():
 
     # Process Video
     if args.input == "0":
-        video_processor = VideoProcessor(input_type=0)
+        video_processor = VideoProcessor()
     else:
-        video_processor = VideoProcessor(input_type=1, video_path=args.input)
+        video_processor = VideoProcessor(video_path=args.input)
     video_processor.process(yolo_tracker)
 
 

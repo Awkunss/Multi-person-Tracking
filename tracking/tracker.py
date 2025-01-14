@@ -1,8 +1,8 @@
 import time
 
 import cv2
-import torch
 import numpy as np
+import torch
 from deep_sort_realtime.deepsort_tracker import DeepSort
 
 from models.common import AutoShape, DetectMultiBackend

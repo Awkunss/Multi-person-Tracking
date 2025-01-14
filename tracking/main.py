@@ -1,14 +1,16 @@
+import sys
+
+sys.path.insert(0, ".")
+
 from arguments import parse_args
+
+import config
 from tracker import YOLOv9Tracker
 from video_processor import VideoProcessor
-import config
 
 
 def main():
     args = parse_args()
-
-    if args.input_type == 1 and not args.video_path:
-        raise ValueError("Error: --video_path is required when --input_type is 1.")
 
     # Initialize YOLOv9 Tracker
     yolo_tracker = YOLOv9Tracker(
@@ -18,7 +20,10 @@ def main():
     )
 
     # Process Video
-    video_processor = VideoProcessor(input_type=args.input_type, video_path=args.video_path)
+    if args.input == "0":
+        video_processor = VideoProcessor()
+    else:
+        video_processor = VideoProcessor(video_path=args.input)
     video_processor.process(yolo_tracker)
 
 

@@ -2,11 +2,12 @@ import cv2
 
 
 class VideoProcessor:
-    def __init__(self, input_type, video_path=None):
-        self.cap = self._initialize_capture(input_type, video_path)
 
-    def _initialize_capture(self, input_type, video_path):
-        if input_type == 1 and video_path:
+    def __init__(self, video_path=None):
+        self.cap = self._initialize_capture(video_path)
+
+    def _initialize_capture(self, video_path):
+        if video_path is not None:
             cap = cv2.VideoCapture(video_path)
         else:
             cap = cv2.VideoCapture(0)  # 0 for webcam

@@ -8,7 +8,7 @@ This project implements object detection and tracking using YOLOv9 and DeepSORT.
 ## Project Structure
 
 ```
-yolov9/tracking/
+/tracking/
 ├── arguments.py          # Handles command-line arguments
 ├── main.py               # Entry point for the application
 ├── tracker.py            # Contains YOLOv9 tracker logic
@@ -31,25 +31,24 @@ yolov9/tracking/
 
 ## Usage
 
-Run the application using `main.py`. Specify the input type and video path (if applicable) via command-line arguments.
+Run the application using `tracking/main.py`. Specify the input type and video path (if applicable) via command-line arguments.
 
 ### Command-Line Arguments
 
-| Argument      | Description                                   | Required |
-|---------------|-----------------------------------------------|----------|
-| `--input_type`| Input type: `1` for video file, `2` for webcam | Yes      |
-| `--video_path`| Path to the video file (if `input_type=1`)    | No       |
+| Argument      | Description                                    | Required |
+|---------------|------------------------------------------------|----------|
+|   `--input`   | Input Path to the video file or `0` for webcam | Yes      |
 
 ### Example Commands
 
 #### Process a Video File
 ```bash
-python main.py --input_type 1 --video_path data_ext/walking_2.mp4
+python tracking/main.py --input data_ext/walking_2.mp4
 ```
 
 #### Stream Live from Webcam
 ```bash
-python main.py --input_type 2
+python tracking/main.py --input 0
 ```
 
 ---

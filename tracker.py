@@ -6,7 +6,7 @@ from ultralytics import YOLO
 
 
 class YOLOVideoTracker:
-    def __init__(self, model_version, video_path, tracker_config, target_classes=[0]):
+    def __init__(self, model_version,  tracker_config, video_path, target_classes=[0]):
         self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
         print(f"Using device: {self.device}")
 
@@ -29,7 +29,12 @@ class YOLOVideoTracker:
     def process_frame(self, frame, prev_time):
         """Process a single frame, run YOLO tracking, and annotate it."""
         # Run YOLO tracking on the frame
-        results = self.model.track(frame, persist=True, tracker=self.tracker_config, classes=self.target_classes)
+        results = self.model.track(
+            frame, 
+            persist=True, 
+            tracker=self.tracker_config, 
+            classes=self.target_classes,
+        )
         annotated_frame = results[0].plot()
 
         # Calculate FPS

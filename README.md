@@ -14,6 +14,7 @@ This project implements object detection and tracking using YOLO and ByteTrack. 
 ├── tracker.py            # Contains YOLOv9 tracker logic
 ├── video_processor.py    # Handles video input and processing
 ├── config.py             # Stores configuration constants
+├── tracker_config.yaml   # Config tracker
 ```
 
 ---
@@ -60,7 +61,7 @@ You can modify constants like YOLO weights, tracker in `config.py`:
 ```python
 # config.py
 VERSION_MODEL = "yolo11m.pt"
-TRACKER = "bytetrack.yaml"
+TRACKER = "tracker_config.yaml" # Can be replaced with "bytetrack.yaml" or "botsort.yaml" built in ultralytics
 ```
 
 ---

@@ -1,6 +1,7 @@
-
 from arguments import parse_args
-from video_processing import VideoProcessor
+from config import VERSION_MODEL, TRACKER
+from tracker import YOLOVideoTracker
+
 
 if __name__ == "__main__":
     # Parse command-line arguments
@@ -9,8 +10,8 @@ if __name__ == "__main__":
     # Process Video
     video_path = None if args.input == "0" else args.input
 
-    video_processor = VideoProcessor(
-        video_path=video_path
-    )    
-
-    video_processor.process_video()
+    video_processor = YOLOVideoTracker(
+            model_version=VERSION_MODEL,
+            tracker_config=TRACKER
+    ) 
+    video_processor.track_video(video_path)

@@ -11,8 +11,7 @@ This project implements object detection and tracking using YOLO and ByteTrack. 
 /tracking/
 ├── arguments.py          # Handles command-line arguments
 ├── main.py               # Entry point for the application
-├── tracker.py            # Contains YOLOv9 tracker logic
-├── video_processor.py    # Handles video input and processing
+├── tracker.py            # Contains tracker logic
 ├── config.py             # Stores configuration constants
 ├── tracker_config.yaml   # Config tracker
 ```

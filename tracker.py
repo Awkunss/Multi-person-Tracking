@@ -6,16 +6,15 @@ from ultralytics import YOLO
 
 
 class YOLOVideoTracker:
-    def __init__(self, model_version,  tracker_config, video_path, target_classes=[0]):
+    def __init__(self, model_version,  tracker_config, target_classes=[0]):
         self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
         print(f"Using device: {self.device}")
 
         # Load the YOLO model
         self.model = YOLO(model_version).to(self.device)
-        self.video_path = video_path
         self.tracker_config = tracker_config
         self.target_classes = target_classes
-        self.cap = self.initialize_video_capture(video_path)
+        
 
     def initialize_video_capture(self, video_path):
         if video_path is not None:
@@ -26,15 +25,15 @@ class YOLOVideoTracker:
             raise ValueError("Error: Unable to open video source.")
         return cap
 
-    def process_frame(self, frame, prev_time):
+    def process_frame(self, __process_frame, prev_time):
         """Process a single frame, run YOLO tracking, and annotate it."""
         # Run YOLO tracking on the frame
         results = self.model.track(
-            frame, 
+            __process_frame, 
             persist=True, 
             tracker=self.tracker_config, 
             classes=self.target_classes,
-        )
+        )   
         annotated_frame = results[0].plot()
 
         # Calculate FPS
@@ -45,17 +44,18 @@ class YOLOVideoTracker:
         cv2.putText(annotated_frame, f"FPS: {fps:.2f}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
         return annotated_frame, curr_time
 
-    def track_video(self):
+    def track_video(self, video_path):
         """Process the video frame by frame."""
         prev_time = time.time()
 
-        while self.cap.isOpened():
+        cap = self.initialize_video_capture(video_path)
+        while cap.isOpened():
             # Read a frame from the video
-            success, frame = self.cap.read()
+            success, __process_frame = cap.read()
             
             if success:
                 # Process the frame and get annotated results
-                annotated_frame, prev_time = self.process_frame(frame, prev_time)
+                annotated_frame, prev_time = self.process_frame(__process_frame, prev_time)
 
                 # Display the annotated frame
                 height, width = annotated_frame.shape[:2]
@@ -71,5 +71,5 @@ class YOLOVideoTracker:
                 break
 
         # Release resources
-        self.cap.release()
+        cap.release()
         cv2.destroyAllWindows()

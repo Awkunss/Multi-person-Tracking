@@ -25,11 +25,11 @@ class YOLOVideoTracker:
             raise ValueError("Error: Unable to open video source.")
         return cap
 
-    def __process_frame(self, __process_frame, prev_time):
+    def __process_frame(self, frame, prev_time):
         """Process a single frame, run YOLO tracking, and annotate it."""
         # Run YOLO tracking on the frame
         results = self.model.track(
-            __process_frame, 
+            frame, 
             persist=True, 
             tracker=self.tracker_config, 
             classes=self.target_classes,

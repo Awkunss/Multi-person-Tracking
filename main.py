@@ -1,5 +1,5 @@
 from arguments import parse_args
-from config import VERSION_MODEL, TRACKER
+from config import  TRACKER, VERSION_MODEL
 from tracker import YOLOVideoTracker
 
 

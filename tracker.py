@@ -25,7 +25,7 @@ class YOLOVideoTracker:
             raise ValueError("Error: Unable to open video source.")
         return cap
 
-    def __process_frame(self, __process_frame, __prev_time):
+    def __process_frame(self, __process_frame, prev_time):
         """Process a single frame, run YOLO tracking, and annotate it."""
         # Run YOLO tracking on the frame
         results = self.model.track(
@@ -34,19 +34,19 @@ class YOLOVideoTracker:
             tracker=self.tracker_config, 
             classes=self.target_classes,
         )   
-        __annotated_frame = results[0].plot()
+        annotated_frame = results[0].plot()
 
         # Calculate FPS
-        __curr_time = time.time()
-        fps = 1 / (__curr_time - __prev_time) if __curr_time != __prev_time else 0
+        curr_time = time.time()
+        fps = 1 / (curr_time - prev_time) if curr_time != prev_time else 0
 
         # Draw FPS on the frame
-        cv2.putText(__annotated_frame, f"FPS: {fps:.2f}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
-        return __annotated_frame, __curr_time
+        cv2.putText(annotated_frame, f"FPS: {fps:.2f}", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
+        return annotated_frame, curr_time
 
     def track_video(self, video_path):
         """Process the video frame by frame."""
-        __prev_time = time.time()
+        prev_time = time.time()
 
         cap = self.__initialize_video_capture(video_path)
         while cap.isOpened():
@@ -55,12 +55,12 @@ class YOLOVideoTracker:
             
             if success:
                 # Process the frame and get annotated results
-                __annotated_frame, __prev_time = self.__process_frame(__process_frame, __prev_time)
+                annotated_frame, prev_time = self.__process_frame(__process_frame, prev_time)
 
                 # Display the annotated frame
-                __height, __width = __annotated_frame.shape[:2]
-                __annotated_frame = cv2.resize(__annotated_frame, (int(__width/2), int(__height/2)))
-                cv2.imshow("YOLO Tracking", __annotated_frame)
+                height, width = annotated_frame.shape[:2]
+                annotated_frame = cv2.resize(annotated_frame, (int(width/2), int(height/2)))
+                cv2.imshow("YOLO Tracking", annotated_frame)
 
                 # Break the loop if 'q' is pressed
                 if cv2.waitKey(1) & 0xFF == ord("q"):

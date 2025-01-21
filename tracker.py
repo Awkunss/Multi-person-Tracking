@@ -51,11 +51,11 @@ class YOLOVideoTracker:
         cap = self.__initialize_video_capture(video_path)
         while cap.isOpened():
             # Read a frame from the video
-            success, __process_frame = cap.read()
+            success, frame = cap.read()
             
             if success:
                 # Process the frame and get annotated results
-                annotated_frame, prev_time = self.__process_frame(__process_frame, prev_time)
+                annotated_frame, prev_time = self.__process_frame(frame, prev_time)
 
                 # Display the annotated frame
                 height, width = annotated_frame.shape[:2]
